@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import mock from "./list";
+import ApprovalRow from "./ApprovalRow";
 
 function App(){
     const [count, setCount] = useState(0);
-    //console.log(approvalsMockData);
+
+    useEffect(() => {
+        console.log(count);
+    }, [count]);
 
     function handleCLick(){
-        setCount(count + 1);
-        //setCount(c => c+1);
-        console.log(count);
+        setCount(c => c + 1);
+        setCount(c => c + 1);
+        setCount(c => c + 1);
     }
 
     return (
-        <button onClick={handleCLick}>Click me</button>
+        <div>
+            <button onClick={handleCLick}>Click me</button>
+            <ApprovalRow />
+        </div>
     )
 }
 
