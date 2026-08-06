@@ -1,26 +1,30 @@
-import { useEffect, useState } from "react";
 import mock from "./list";
 import ApprovalRow from "./ApprovalRow";
 
 function App(){
-    const [count, setCount] = useState(0);
-
-    useEffect(() => {
-        console.log(count);
-    }, [count]);
-
-    function handleCLick(){
-        setCount(c => c + 1);
-        setCount(c => c + 1);
-        setCount(c => c + 1);
-    }
 
     return (
         <div>
-            <button onClick={handleCLick}>Click me</button>
-            <ApprovalRow />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Amount</th>
+                        <th>Token</th>
+                        <th>Spender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {mock.map((mo) => (
+                        <ApprovalRow 
+                            key={mo.id} id={mo.id} token={mo.token}
+                            spender={mo.spender} amount={mo.amount}
+                        />
+                    ))}
+                </tbody>
+            </table>
         </div>
-    )
+    );
 }
 
 export default App;
