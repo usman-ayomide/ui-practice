@@ -1,7 +1,15 @@
 import mock from "./list";
 import ApprovalRow from "./ApprovalRow";
+import { useState } from "react";
 
 function App(){
+    const [revoke, setRevoke] = useState(mock);
+    
+    function handleRevoke(id){
+        setRevoke(revoke.map(rev => 
+            rev.id === id ? {...rev, amount: "0"} : rev
+        ));
+    }
 
     return (
         <div>
@@ -15,10 +23,10 @@ function App(){
                     </tr>
                 </thead>
                 <tbody>
-                    {mock.map((mo) => (
-                        <ApprovalRow 
-                            key={mo.id} id={mo.id} token={mo.token}
-                            spender={mo.spender} amount={mo.amount}
+                    {revoke.map((rev) => (
+                        <ApprovalRow onRevoke={handleRevoke}
+                            key={rev.id} id={rev.id} token={rev.token}
+                            spender={rev.spender} amount={rev.amount}
                         />
                     ))}
                 </tbody>
