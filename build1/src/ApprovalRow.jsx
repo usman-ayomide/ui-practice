@@ -1,7 +1,7 @@
-function ApprovalRow({token, spender, amount, id, onRevoke}){
+function ApprovalRow({token, spender, amount, id, onRevoke, revoked}){
     const maxNum = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
     const isUnlimited = amount === maxNum;
-    const isRevoked = amount === "0";
+    const isRevoked = revoked;
     
 
     return(
