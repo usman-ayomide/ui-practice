@@ -8,23 +8,32 @@ function App(){
     const [paste, setPasted] = useState("");
 
     function handlePasted(e){
-        const {name, value} = e.target.value;
-        console.log(name, value)
-        setPasted(revoke.filter(rev => 
-            rev.spender !== spender
-        ));
+        /*destructure name and value to the what was typed
+        and set pasted to the value */
+        const {name, value} = e.target;
+        setPasted(value);
     }
     
     function handleRevoke(id){
-        setRevoke(revoke.map(rev => 
+        /*pass in the id of the wallet whose revoke button was clicked
+        check if the id matches the paramter, take the amount of that row
+        and set it to 0, then set revoked to true. 
+        after that return input back to empty */
+        setRevoke(visibleRows.map(rev => 
             rev.id === id ? {...rev, amount: "0", revoked: true} : rev
         ));
         setPasted("");
     }
 
+    /*look through the mock array, for each row, check if the wallet pasted 
+    exists*/
+    const visibleRows = revoke.filter(rev => 
+        rev.spender.toLowerCase().includes(paste.toLowerCase())
+    );
+    
     return (
         <div>
-            <Input 
+            <Input value={paste}
                 onPaste={handlePasted} 
             />
             <table>
@@ -38,7 +47,7 @@ function App(){
                     </tr>
                 </thead>
                 <tbody>
-                    {revoke.map((rev) => (
+                    {visibleRows.map((rev) => (
                         <ApprovalRow onRevoke={handleRevoke} revoked={rev.revoked}
                             key={rev.id} id={rev.id} token={rev.token}
                             spender={rev.spender} amount={rev.amount}

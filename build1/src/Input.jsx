@@ -1,8 +1,8 @@
-function Input({onPaste}){
+function Input({onPaste, value}){
     return(
         <input 
-            name="wallet" 
-            placeholder="paste your wallet" onChange={() => onPaste()}
+            name="wallet" value={value}
+            placeholder="paste your wallet" onChange={(e) => onPaste(e)}
         />
     );
 }
