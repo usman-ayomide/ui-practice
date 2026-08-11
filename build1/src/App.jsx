@@ -1,16 +1,28 @@
 import mock from "./list";
 import ApprovalRow from "./ApprovalRow";
 import Input from "./Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App(){
     const [revoke, setRevoke] = useState(mock);
     const [paste, setPasted] = useState("");
+    const [timer, setTimer] = useState(0)
+
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimer((previous) => previous + 1);
+        }, 1000);
+        
+        return () => clearInterval(interval);
+    }, []);
+
+    
 
     function handlePasted(e){
         /*destructure name and value to the what was typed
         and set pasted to the value */
-        const {name, value} = e.target;
+        const {value} = e.target;
         setPasted(value);
     }
     
@@ -19,16 +31,15 @@ function App(){
         check if the id matches the paramter, take the amount of that row
         and set it to 0, then set revoked to true. 
         after that return input back to empty */
-        setRevoke(visibleRows.map(rev => 
+        setRevoke(revoke.map(rev => 
             rev.id === id ? {...rev, amount: "0", revoked: true} : rev
         ));
-        setPasted("");
     }
 
     /*look through the mock array, for each row, check if the wallet pasted 
     exists*/
     const visibleRows = revoke.filter(rev => 
-        rev.spender.toLowerCase().includes(paste.toLowerCase())
+        rev.spender.toLowerCase().includes(paste.toLowerCase()) || rev.token.toLowerCase().includes(paste.toLowerCase())
     );
     
     return (
@@ -36,6 +47,7 @@ function App(){
             <Input value={paste}
                 onPaste={handlePasted} 
             />
+            <p>Last scanned: {timer}s ago</p>
             <table>
                 <thead>
                     <tr>
